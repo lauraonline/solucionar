@@ -1,93 +1,86 @@
+import numpy as np # importamos a biblioteca numpy, que é uma biblioteca de álgebra linear para python.
+
 class ResolvedorSistema:
-    # Essa classe será nossa "máquina de resolver sistemas".
-    # Ela guarda dois valores: o resultado do sistema e o tipo de sistema.
-    def __init__(self): # O construtor da classe, que serve para inicializar os contêineres em que os valores serão guardados.
-        self.resultado = None # É atribuído um valor nulo para que o contêiner de resultado seja criado.
-        self.tipo_sistema = None # É atribuído um valor nulo para que o contêiner de tipo de sistema seja criado.
+    # essa classe será nossa "máquina de resolver sistemas".
+    # ela guarda dois valores: o resultado do sistema e o tipo de sistema.
+    def __init__(self): # o construtor da classe, que serve para inicializar os contêineres em que os valores serão guardados.
+        self.resultado = None # é atribuído um valor nulo para que o contêiner de resultado seja criado.
+        self.tipo_sistema = None # é atribuído um valor nulo para que o contêiner de tipo de sistema seja criado.
+        # o método resolver é o principal responsável por receber os coeficientes e 
+        # termos independentes e retornar o tipo de sistema e o resultado.
+        # os coeficientes vem em forma matricial e os termos independentes em forma de vetor.
+    def resolver(self, coeficientes, termos_independentes):
+        try: # o try é usado pra que se houver um erro, ele seja "capturado" e uma mensagem de erro seja exibida.
 
-    def resolver_2x2(self, coeficientes, termos_independentes):
-        # O método resolver_2x2 é o principal responsável por receber os coeficientes e termos independentes,
-        # e retornar o tipo de sistema e o resultado.
-        try: # O bloco try é responsável por executar o código e capturar possíveis erros.
-            # Caso o sistema não seja 2x2, o erro é capturado e uma mensagem de erro é exibida.
-            if len(coeficientes) != 2 or len(coeficientes[0]) != 2 or len(termos_independentes) != 2:
-                raise ValueError("O sistema deve ser 2x2")
-            # O determinante é calculado usando a fórmula a11*a22 - a12*a21.
-            det = coeficientes[0][0] * coeficientes[1][1] - coeficientes[0][1] * coeficientes[1][0]
+            # é hora de converter os coeficientes para um array numpy.
+            # arrays são uma estrutura de dados em que todos os elementos do mesmo tipo
+            # são armazenados em sequência, dentro de uma única variável.
 
-            # Caso o determinante seja diferente de zero, o sistema é determinado.
-            if abs(det) > 1e-10: # O valor 1e-10 ( 0.0000000001 ) é usado ao invés de zero para evitar erros.
-                                 # Caso ocorra um erro de arredondamento e o computador obtenha um valor muito próximo de zero,
-                                 # o código ainda assim deverá funcionar perfeitamente.
-                # Utilizando a regra de Cramer para calcular os valores de x e y
-                x = (termos_independentes[0] * coeficientes[1][1] - termos_independentes[1] * coeficientes[0][1]) / det
-                y = (termos_independentes[1] * coeficientes[0][0] - termos_independentes[0] * coeficientes[1][0]) / det
-                self.tipo_sistema = "determinado"
-                self.resultado = [x, y]
-                # Saída do tipo de sistema (determinado) e o resultado (x, y)
-                return self.tipo_sistema, self.resultado
+            # nós usamos arrays por eles serem uma maneira do computador entender melhor os dados.
+            # assim, ele vê os dados como uma matriz e obtemos a capacidade de fazer operações com eles.
+            A = np.array(coeficientes, dtype=float)
+            # também convertemos os termos independentes para um array numpy.
+            # ao contrário dos coeficientes, os termos independentes serão recebidos em forma de vetor (uma linha).
+            b = np.array(termos_independentes, dtype=float)
+
+            # a esse ponto, o computador vê os dados como uma matriz e um vetor. por exemplo, o sistema
+            # 1x + 2y + 3z = 10
+            # 4x + 5y + 6z = 11
+            # 7x + 8y + 9z = 12
+            # seria representado como:
+            # A = [[1, 2, 3],
+            #      [4, 5, 6],
+            #      [7, 8, 9]]
+            # b = [10, 11, 12]
+
+            # agora, vamos verificar o tipo de sistema.
+            # se o número de linhas da matriz A (A.shape[0]) é igual ao número de colunas (A.shape[1]),
+            # o sistema é quadrado e podemos partir para a resolução.
+            if A.shape[0] == A.shape[1]: 
+                # vamos utilizar o método det do np.linalg, o módulo de álgebra linear do numpy,
+                # para calcular o determinante da matriz que contém os coeficientes e armazená-lo em det.
+                # esse método usa decomposição LU, uma técnica de fatoração de matrizes, para calcular o determinante.
+
+                # se eu tomasse tempo pra aprender como a determinação LU funciona, eu não teria
+                # tempo de terminar esse projeto. eu só sei que o método np.linalg.det funciona.
+                det = np.linalg.det(A)
+                # como o computador usa base 2 para representar os números,
+                # ele pode ter propensão a confundir o 0 com um número muito pequeno.
+                # por isso, usamos o método round para arredondar a saída de det para 5 casas decimais.
+                # depois, comparamos o resultado com 0. 
+                if round(det, 5) != 0: # se o determinante não for 0, o sistema é possível e determinado. 
+                    # vamos usar o método solve do np.linalg, o módulo de
+                    # álgebra linear do numpy, para resolver o sistema.
+                    self.resultado = np.linalg.solve(A, b)
+                    self.tipo_sistema = "sistema possível e determinado"
+                else:
+                    # se o determinante for 0, o sistema pode ser possível e indeterminado ou impossível.
+                    # para descobrir qual é o caso, vamos usar o método matrix_rank do np.linalg.
+                    # com ele, vamos calcular o posto da matriz A. caso o posto seja menor que o número
+                    # de linhas, as equações são linhas coincidentes no plano cartesiano. no entanto, isso
+                    # se aplica somente se os termos independentes forem proporcionais às equações.
+                    # logo, vamos checar a proporção entre esses dois.
+                    rank_A = np.linalg.matrix_rank(A)
+                    # calculando o posto da matriz aumentada A|b, podemos checar se os termos independentes
+                    # obedecem às equações. caso isso não ocorra, as equações se tornam linhas paralelas
+                    # no plano cartesiano, o que caracteriza um sistema impossível.
+                    rank_Ab = np.linalg.matrix_rank(np.c_[A, b])
+                    # botando tudo isso em prática, vamos checar se o posto de A é igual ao posto de A|b.
+                    # caso seja, as duas equações são coincidentes e o sistema é possível e indeterminado.
+                    if rank_A == rank_Ab:
+                        self.tipo_sistema = "sistema possível e indeterminado"
+                    # caso não seja, as duas equações são paralelas e o sistema é impossível.
+                    else:
+                        self.tipo_sistema = "sistema impossível"
+            else:
+
+                # logicamente, se o número de linhas não é igual ao número de colunas,
+                # o sistema não é quadrado e foge do escopo do programa.
+                raise ValueError("o sistema não é quadrado.")
             
-            # Quando o determinante é zero, o sistema deve ser classificado como indeterminado ou impossível.
-            # Para isso, precisamos verificar se as equações são proporcionais (múltiplas uma da outra) ou não.
-            # Por exemplo:
-            # 2x + 3y = 4   Estas equações são proporcionais, e neste caso,
-            # 4x + 6y = 8   a segunda equação é igual a 2 vezes a primeira.
-            #
-            # 2x + 3y = 4   Neste caso, as equações não são proporcionais.
-            # 4x + 6y = 9
-            # Vamos verificar se alguma das equações é uma linha de zeros (Por exemplo: 0x + 0y = 0).
-            # Se for, não há proporção entre as equações, pois não tem como dividir por zero.
-            if abs(coeficientes[0][0]) < 1e-10 and abs(coeficientes[0][1]) < 1e-10:
-                proporcao_coef = None
-            elif abs(coeficientes[1][0]) < 1e-10 and abs(coeficientes[1][1]) < 1e-10:
-                proporcao_coef = None
-            # Se não houver linha de zeros, tentaremos calcular a proporção entre as equações.
-            # Se o coeficiente a11 for diferente de zero (Não dá pra dividir por zero), usaremos ele para calcular a proporção.
-            elif abs(coeficientes[0][0]) > 1e-10: 
-                proporcao_coef = coeficientes[1][0] / coeficientes[0][0]
-            # Se o coeficiente a12 for diferente de zero (Não dá pra dividir por zero), usaremos ele para calcular a proporção.
-            elif abs(coeficientes[0][1]) > 1e-10:
-                proporcao_coef = coeficientes[1][1] / coeficientes[0][1]
-            # Se não der com o a11 e nem com o a12, não há proporção entre as equações.
-            else:
-                proporcao_coef = None
-                
-            # Agora, vamos determinar se o sistema é indeterminado ou impossível.
-            # Primeiro, trabalharemos com os casos em que há proporção entre as equações.
-            # Se os termos independentes manterem a mesma proporção, o sistema é indeterminado.
-            # Caso contrário, o sistema é impossível.
-            if proporcao_coef is not None:
-                # É utilizada uma equação para verificar a proporção entre os termos independentes.
-                # É calculada a diferença entre o termo independente da segunda equação
-                # e o termo independente da primeira equação multiplicado pela proporção das equações.
-                # Caso o valor absoluto (sem sinal negativo) dessa diferença seja zero (ou menor que 0.0000000001),
-                # o sistema é indeterminado.
-                if abs(termos_independentes[1] - proporcao_coef * termos_independentes[0]) < 1e-10:
-                    self.tipo_sistema = "indeterminado"
-                    self.resultado = None
-                else:
-                    # Caso contrário (se a diferença for maior que 0.0000000001), não há proporção entre
-                    # os termos independentes e portanto, o sistema é impossível.
-                    self.tipo_sistema = "impossivel"
-                    self.resultado = None
-            # Agora, vamos trabalhar com os casos em que não há proporção entre as equações.
-            else:
-                # Se o termo independente da segunda equação for zero (ou menor que 0.0000000001),
-                # o sistema é indeterminado. Vale lembrar que a esse ponto, uma das equações já é uma linha de zeros.
-                if abs(termos_independentes[1]) < 1e-10:
-                    self.tipo_sistema = "indeterminado"
-                    self.resultado = None
-                else:
-                    # Se o termo independente da segunda equação não for zero, o sistema é impossível.
-                    # Por exemplo: 0x + 0y = 1 (Não há como resolver isso).
-                    self.tipo_sistema = "impossivel"
-                    self.resultado = None
-                    # Notemos que em ambos os casos (indeterminado e impossível),
-                    # o campo de resultado sempre será None (ou nulo). Isso é porque
-                    # sistemas impossíveis não possuem solução, e sistemas indeterminados
-                    # possuem infinitas soluções (e seria impossível listar todas).
-            # Por fim, o método retorna o tipo de sistema e o resultado.
+            # por fim, retornamos o tipo de sistema e o resultado.
             return self.tipo_sistema, self.resultado
-        # Caso ocorra um erro, uma mensagem de erro é exibida.
-        except Exception as e: # O erro é capturado dentro da variável (contêiner) "e".
-            raise Exception(f"Erro ao resolver o sistema: {str(e)}")  # Então, o erro é exibido ao usuário.
+        
+        # se ocorrer um erro, retornamos a mensagem de erro adequada.  
+        except Exception as e:
+            raise Exception(f"x_x ocorreu um erro ao resolver o sistema: {str(e)}")
