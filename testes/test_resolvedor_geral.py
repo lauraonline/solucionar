@@ -113,5 +113,21 @@ class TestResolvedorGeral(unittest.TestCase):
         self.assertEqual(tipo, "sistema impossível")
         self.assertIsNone(resultado)
 
+    def test_sistema_subdeterminado(self):
+        # x + y + z + w = 1
+        # 2x + 2y + 2z + 2w = 2
+        # 3x + 3y + 3z + 3w = 4
+        coeficientes = [
+            [1, 1, 1, 1],
+            [2, 2, 2, 2],
+            [3, 3, 3, 3]
+        ]
+        termos_independentes = [1, 2, 4]
+
+        tipo, resultado = self.resolvedor.resolver(coeficientes, termos_independentes)
+
+        self.assertIsNone(tipo)
+        self.assertIsNone(resultado)
+
 if __name__ == "__main__":
     unittest.main()
