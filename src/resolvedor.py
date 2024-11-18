@@ -1,8 +1,8 @@
 import numpy as np # importamos a biblioteca numpy, que é uma biblioteca de álgebra linear para python.
 
+# essa classe será nossa "máquina de resolver sistemas".
+# ela guarda dois valores: o resultado do sistema e o tipo de sistema.
 class ResolvedorSistema:
-    # essa classe será nossa "máquina de resolver sistemas".
-    # ela guarda dois valores: o resultado do sistema e o tipo de sistema.
     def __init__(self): # o construtor da classe, que serve para inicializar os contêineres em que os valores serão guardados.
         self.resultado = None # é atribuído um valor nulo para que o contêiner de resultado seja criado.
         self.tipo_sistema = None # é atribuído um valor nulo para que o contêiner de tipo de sistema seja criado.
