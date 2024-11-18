@@ -3,6 +3,8 @@ from tkinter import ttk, messagebox # do tkinter, importamos ttk, que são os no
 import numpy as np # importamos o numpy, que é uma biblioteca de álgebra linear para python.
 from resolvedor import ResolvedorSistema # importamos a nossa classe existente ResolvedorSistema, que é a "máquina de resolver sistemas".
 
+# essa classe criará a interface gráfica do nosso programa pro usuário poder inserir os dados e obter o resultado.
+
 class InterfaceSistema:
     def __init__(self):
         # Criando a janela principal

@@ -6,15 +6,13 @@ class ResolvedorSistema:
     def __init__(self): # o construtor da classe, que serve para inicializar os contêineres em que os valores serão guardados.
         self.resultado = None # é atribuído um valor nulo para que o contêiner de resultado seja criado.
         self.tipo_sistema = None # é atribuído um valor nulo para que o contêiner de tipo de sistema seja criado.
-        # o método resolver é o principal responsável por receber os coeficientes e 
-        # termos independentes e retornar o tipo de sistema e o resultado.
+        # o método resolver é o principal responsável por receber os coeficientes e termos independentes e retornar o tipo de sistema e o resultado.
         # os coeficientes vem em forma matricial e os termos independentes em forma de vetor.
     def resolver(self, coeficientes, termos_independentes):
         try: # o try é usado pra que se houver um erro, ele seja "capturado" e uma mensagem de erro seja exibida.
 
             # é hora de converter os coeficientes para um array numpy.
-            # arrays são uma estrutura de dados em que todos os elementos do mesmo tipo
-            # são armazenados em sequência, dentro de uma única variável.
+            # arrays são uma estrutura de dados em que todos os elementos do mesmo tipo são armazenados em sequência, dentro de uma única variável.
 
             # nós usamos arrays por eles serem uma maneira do computador entender melhor os dados.
             # assim, ele vê os dados como uma matriz e obtemos a capacidade de fazer operações com eles.
@@ -34,36 +32,26 @@ class ResolvedorSistema:
             # b = [10, 11, 12]
 
             # agora, vamos verificar o tipo de sistema.
-            # se o número de linhas da matriz A (A.shape[0]) é igual ao número de colunas (A.shape[1]),
-            # o sistema é quadrado e podemos partir para a resolução.
+            # se o número de linhas da matriz A (A.shape[0]) é igual ao número de colunas (A.shape[1]), o sistema é quadrado e podemos partir para a resolução.
             if A.shape[0] == A.shape[1]: 
-                # vamos utilizar o método det do np.linalg, o módulo de álgebra linear do numpy,
-                # para calcular o determinante da matriz que contém os coeficientes e armazená-lo em det.
+                # vamos utilizar o método det do np.linalg, o módulo de álgebra linear do numpy,para calcular o determinante da matriz que contém os coeficientes e armazená-lo em det.
                 # esse método usa decomposição LU, uma técnica de fatoração de matrizes, para calcular o determinante.
-
-                # se eu tomasse tempo pra aprender como a determinação LU funciona, eu não teria
-                # tempo de terminar esse projeto. eu só sei que o método np.linalg.det funciona.
+                # se eu tomasse tempo pra aprender como a determinação LU funciona, eu não teria tempo de terminar esse projeto. eu só sei que o método np.linalg.det funciona.
                 det = np.linalg.det(A)
-                # como o computador usa base 2 para representar os números,
-                # ele pode ter propensão a confundir o 0 com um número muito pequeno.
+                # como o computador usa base 2 para representar os números, ele pode ter propensão a confundir o 0 com um número muito pequeno.
                 # por isso, usamos o método round para arredondar a saída de det para 5 casas decimais.
                 # depois, comparamos o resultado com 0. 
                 if round(det, 5) != 0: # se o determinante não for 0, o sistema é possível e determinado. 
-                    # vamos usar o método solve do np.linalg, o módulo de
-                    # álgebra linear do numpy, para resolver o sistema.
+                    # vamos usar o método solve do np.linalg, o módulo de álgebra linear do numpy, para resolver o sistema.
                     self.resultado = np.linalg.solve(A, b)
                     self.tipo_sistema = "sistema possível e determinado"
                 else:
                     # se o determinante for 0, o sistema pode ser possível e indeterminado ou impossível.
                     # para descobrir qual é o caso, vamos usar o método matrix_rank do np.linalg.
-                    # com ele, vamos calcular o posto da matriz A. caso o posto seja menor que o número
-                    # de linhas, as equações são linhas coincidentes no plano cartesiano. no entanto, isso
-                    # se aplica somente se os termos independentes forem proporcionais às equações.
+                    # com ele, vamos calcular o posto da matriz A. caso o posto seja menor que o número de linhas, as equações são linhas coincidentes no plano cartesiano. no entanto, isso se aplica somente se os termos independentes forem proporcionais às equações.
                     # logo, vamos checar a proporção entre esses dois.
                     rank_A = np.linalg.matrix_rank(A)
-                    # calculando o posto da matriz aumentada A|b, podemos checar se os termos independentes
-                    # obedecem às equações. caso isso não ocorra, as equações se tornam linhas paralelas
-                    # no plano cartesiano, o que caracteriza um sistema impossível.
+                    # calculando o posto da matriz aumentada A|b, podemos checar se os termos independentes obedecem às equações. caso isso não ocorra, as equações se tornam linhas paralelas no plano cartesiano, o que caracteriza um sistema impossível.
                     rank_Ab = np.linalg.matrix_rank(np.c_[A, b])
                     # botando tudo isso em prática, vamos checar se o posto de A é igual ao posto de A|b.
                     # caso seja, as duas equações são coincidentes e o sistema é possível e indeterminado.
