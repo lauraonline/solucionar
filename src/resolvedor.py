@@ -3,7 +3,7 @@ import numpy as np # vou começar importando a biblioteca numpy, que é uma bibl
 # essa classe será a "máquina de resolver sistemas".
 # ela guarda dois valores: o resultado do sistema e o tipo de sistema.
 class ResolvedorSistema:
-    def __init__(self): # o construtor da classe, que serve para inicializar os contêineres em que os valores serão guardados.
+    def __init__(self): # o construtor principal da classe, que serve para inicializar os contêineres em que os valores serão guardados.
         self.resultado = None # é atribuído um valor nulo para que o contêiner de resultado seja criado.
         self.tipo_sistema = None # é atribuído um valor nulo para que o contêiner de tipo de sistema seja criado.
         # o método resolver é o principal responsável por receber os coeficientes e termos independentes e retornar o tipo de sistema e o resultado.
