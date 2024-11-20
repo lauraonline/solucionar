@@ -2,8 +2,9 @@
 ## Requerimentos
 - Python 3.12
 	- NumPy 2.1
-> [!tip] Como checar se Python e NumPy estão instalados 
+### Como checar se Python e NumPy estão instalados 
 > Python: `python --version`
+> 
 > NumPy:  `python -c "import numpy; print('instalado')"`
 ## Como executar
 1. Baixar a última versão
