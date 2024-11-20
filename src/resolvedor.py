@@ -9,7 +9,7 @@ class ResolvedorSistema:
         # o método resolver é o principal responsável por receber os coeficientes e termos independentes e retornar o tipo de sistema e o resultado.
         # os coeficientes vem em forma matricial e os termos independentes em forma de vetor.
     def resolver(self, coeficientes, termos_independentes):
-        try: # o try é usado pra que se houver um erro, ele seja "capturado" e uma mensagem de erro seja exibida.
+        try: # o try serve pra que se der erro, o computador armazene a mensagem de erro em uma variável pra mostrar pro usuário.
 
             # é hora de converter os coeficientes para um array numpy.
             # arrays são uma estrutura de dados em que todos os elementos do mesmo tipo são armazenados em sequência, dentro de uma única variável.
