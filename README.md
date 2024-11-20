@@ -10,6 +10,8 @@
 1. Baixar a última versão
 2. Navegar até o diretório raiz do programa com um terminal
 3. Executar o comando "python interface.py"
+
 ou
+
 1. Baixar a última versão
 2. Abrir o arquivo interface.py com o Python
