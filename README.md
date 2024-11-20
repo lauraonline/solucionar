@@ -1,4 +1,5 @@
 # solucionar()
+Interface gráfica pra resolução de sistemas lineares
 ## Requerimentos
 - Python 3.12
 	- NumPy 2.1
