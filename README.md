@@ -2,10 +2,13 @@
 ## Requerimentos
 - Python 3.12
 	- NumPy 2.1
+> [!tip] Como checar se Python e NumPy estão instalados 
+> Python: `python --version`
+> NumPy:  `python -c "import numpy; print('instalado')"`
 ## Como executar
-1. Baixar o código fonte e extrair
+1. Baixar a última versão
 2. Navegar até o diretório raiz do programa com um terminal
-3. Executar o comando "python src/interface.py"
+3. Executar o comando "python interface.py"
 ou
-1. Baixar o código fonte e extrair
-2. Abrir o arquivo src/interface.py com o Python
+1. Baixar a última versão
+2. Abrir o arquivo interface.py com o Python
