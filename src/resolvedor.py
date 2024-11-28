@@ -39,7 +39,7 @@ class ResolvedorSistema:
                 # se eu tomasse tempo pra aprender como a determinação LU funciona, eu não teria tempo de terminar esse projeto. eu só sei que o método np.linalg.det funciona.
                 det = np.linalg.det(A)
                 # como o computador usa base 2 para representar os números, ele pode ter propensão a confundir o 0 com um número muito pequeno.
-                # por isso, vou usar o método round para arredondar a saída de det para 5 casas decimais.
+                # por isso, vou usar a função round para arredondar a saída de det para 5 casas decimais.
                 # depois, comparo o resultado com 0. 
                 if round(det, 5) != 0: # se o determinante não for 0, o sistema é possível e determinado. 
                     # vou usar o método solve do np.linalg, o módulo de álgebra linear do numpy, para resolver o sistema.
