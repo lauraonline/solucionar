@@ -35,8 +35,6 @@ class ResolvedorSistema:
             # se o número de linhas da matriz A (A.shape[0]) é igual ao número de colunas (A.shape[1]), o sistema é quadrado e se pode partir para a resolução.
             if A.shape[0] == A.shape[1]: 
                 # vou usar o método det do np.linalg, o módulo de álgebra linear do numpy, para calcular o determinante da matriz que contém os coeficientes e armazená-lo em det.
-                # esse método usa decomposição LU, uma técnica de fatoração de matrizes, para calcular o determinante.
-                # se eu tomasse tempo pra aprender como a determinação LU funciona, eu não teria tempo de terminar esse projeto. eu só sei que o método np.linalg.det funciona.
                 det = np.linalg.det(A)
                 # como o computador usa base 2 para representar os números, ele pode ter propensão a confundir o 0 com um número muito pequeno.
                 # por isso, vou usar a função round para arredondar a saída de det para 5 casas decimais.
