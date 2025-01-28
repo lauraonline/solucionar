@@ -1,10 +1,7 @@
 # solucionar()
 
-<<<<<<< HEAD
 Interface gráfica pra resolução de sistemas lineares
 
-=======
->>>>>>> 27f3a685da5a8d668013dd3c3a1e640cd1463206
 ## Requerimentos
 
 - Python 3.12
