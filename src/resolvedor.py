@@ -8,7 +8,7 @@ class ResolvedorSistema:
             A = np.array(coeficientes, dtype=float)
             b = np.array(termosindependentes, dtype=float)
             if A.shape[0] == A.shape[1]: 
-                det = np.linalg.det(A)                
+                det = np.linalg.det(A)
                 if round(det, 5) != 0:
                     self.resultado = np.linalg.solve(A, b)
                     self.tiposistema = "sistema possível e determinado"
