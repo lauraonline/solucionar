@@ -4,6 +4,17 @@ import numpy as np
 from resolvedor import ResolvedorSistema 
 
 class InterfaceSistema:
+    def __init__(self):
+        self.janela = tk.Tk()
+        self.janela.title("solucionar()") 
+        self.janela.geometry("400x500")
+        self.resolvedor = ResolvedorSistema()
+        self.frameprincipal = ttk.Frame(self.janela, padding="10")
+        self.frameprincipal.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
+        self.criarinterface()
+        self.tamanhoatual = 2
+        self.atualizarmatriz(2)
+
     def criarinterface(self): 
         ttk.Label(self.frameprincipal, text="solucionar()", 
                 font=('Courier New', 16)).grid(row=0, column=0, columnspan=6, pady=10) 
@@ -17,17 +28,6 @@ class InterfaceSistema:
         ttk.Button(self.frameprincipal, text="Resolver", command=self.resolver).grid(row=4, column=0, columnspan=6, pady=10)
         self.resultadotext = tk.Text(self.frameprincipal, height=5, width=40) 
         self.resultadotext.grid(row=5, column=0, columnspan=6, pady=10)
-
-    def __init__(self):
-        self.janela = tk.Tk()
-        self.janela.title("solucionar()") 
-        self.janela.geometry("400x500")
-        self.resolvedor = ResolvedorSistema()
-        self.frameprincipal = ttk.Frame(self.janela, padding="10")
-        self.frameprincipal.grid(row=0, column=0, sticky=(tk.W, tk.E, tk.N, tk.S))
-        self.criarinterface()
-        self.tamanhoatual = 2
-        self.atualizarmatriz(2)
 
     def atualizarmatriz(self, tamanho): 
         for widget in self.framesistema.winfo_children():
@@ -69,12 +69,7 @@ class InterfaceSistema:
                         raise ValueError("Todas as entradas devem ser preenchidas!") 
                     valor = float(j.get()) 
                     valoreslinha.append(valor) 
-                matriz.append(valoreslinha) 
-                
-                
-                
-                
-                
+                matriz.append(valoreslinha)
             return matriz 
         except ValueError as e: 
             raise ValueError(str(e)) 
@@ -109,7 +104,7 @@ class InterfaceSistema:
             messagebox.showerror("Erro", f"Ocorreu um erro: {str(e)}") 
     def executar(self): 
         self.janela.mainloop() 
-        
+
 if __name__ == "__main__": 
     interface = InterfaceSistema()
     interface.executar() 
